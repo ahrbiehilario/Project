@@ -1,0 +1,112 @@
+
+package GraphsCharts;
+
+import javax.swing.*;
+import org.jfree.chart.*;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.*;
+import org.jfree.chart.renderer.category.*;
+import org.jfree.data.category.*;
+import java.awt.*;
+import java.sql.*;
+
+public class YearlyCharts extends JPanel {
+    
+    public YearlyCharts() {
+        setLayout(new BorderLayout());
+        setBackground(new Color(255,255,204));
+        displayGraph();
+    }
+    
+    private void displayGraph() {
+        JFreeChart barChart = ChartFactory.createBarChart(
+            "Yearly Reservation Trends", "Year", "Reservations (%)",
+            createDataset(), PlotOrientation.VERTICAL, true, true, false);
+        CategoryPlot plot = barChart.getCategoryPlot();
+        plot.setBackgroundPaint(new Color(0, 102, 0));
+        plot.setDomainGridlinePaint(new Color(255, 255, 204));
+        plot.setRangeGridlinePaint(new Color(255, 255, 204));
+        plot.setOutlineVisible(false);
+        BarRenderer renderer = (BarRenderer) plot.getRenderer();
+        renderer.setSeriesPaint(0, new Color(255, 255, 102));
+        renderer.setSeriesPaint(1, new Color(153, 153, 255));
+        renderer.setSeriesPaint(2, new Color(102, 255, 102));
+        renderer.setDrawBarOutline(false);
+        NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+        rangeAxis.setRange(0, 100);
+        rangeAxis.setTickUnit(new org.jfree.chart.axis.NumberTickUnit(10));
+        rangeAxis.setLabel("Reservations (%)");
+        rangeAxis.setLabelPaint(new Color(0,102,0));
+        rangeAxis.setTickLabelPaint(new Color(0,102,0));
+        plot.getDomainAxis().setLabelPaint(new Color(0, 102, 0));
+        plot.getDomainAxis().setTickLabelPaint(new Color(0,102,0));
+        barChart.getTitle().setPaint(new Color(0,102,0));
+        barChart.setBackgroundPaint(new Color(255,255,204));
+        ChartPanel chartPanel = new ChartPanel(barChart);
+        chartPanel.setPreferredSize(new Dimension(650, 300));
+        chartPanel.setBackground(new Color(255,255,204));
+        add(chartPanel, BorderLayout.CENTER);
+    }
+    
+    private CategoryDataset createDataset() {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        int startYear = 2025;
+        int endYear = startYear + 5;
+        for (int year = startYear; year <= endYear; year++) {
+            int[] counts = getYearlyReservationData(year);
+            int totalReservations = counts[0] + counts[1] + counts[2];
+            if (totalReservations > 0) {
+                dataset.addValue((counts[0] * 100.0) / totalReservations, "Day Tour", String.valueOf(year));
+                dataset.addValue((counts[1] * 100.0) / totalReservations, "Night Tour", String.valueOf(year));
+                dataset.addValue((counts[2] * 100.0) / totalReservations, "22 Hours", String.valueOf(year));
+            } else {
+                dataset.addValue(0, "Day Tour", String.valueOf(year));
+                dataset.addValue(0, "Night Tour", String.valueOf(year));
+                dataset.addValue(0, "22 Hours", String.valueOf(year));
+            }
+        }
+        return dataset;
+    }
+    
+    private int[] getYearlyReservationData(int year) {
+        String url = "jdbc:mysql://localhost:3306/accounts";
+        String user = "root";
+        String password = "sha@123";
+        String query = "SELECT " +
+                       "SUM(CASE WHEN resTime LIKE 'Day Tour%' THEN 1 ELSE 0 END) AS day_tour, " +
+                       "SUM(CASE WHEN resTime LIKE 'Night Tour%' THEN 1 ELSE 0 END) AS night_tour, " +
+                       "SUM(CASE WHEN resTime LIKE '22 Hours%' THEN 1 ELSE 0 END) AS hours_22 " +
+                       "FROM reservations WHERE YEAR(resDate) = ?";
+        try (Connection con = DriverManager.getConnection(url, user, password);
+             PreparedStatement pst = con.prepareStatement(query)) {
+            pst.setInt(1, year);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                return new int[]{rs.getInt("day_tour"), rs.getInt("night_tour"), rs.getInt("hours_22")};
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return new int[]{0, 0, 0};
+    }
+
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // End of variables declaration//GEN-END:variables
+}
