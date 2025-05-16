@@ -1,0 +1,21 @@
+
+
+Version:	3.50
+CmdLine:	C:\Users\PC\Documents\NetBeansProjects\Main System\dist\Online Reservation Management.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Working dir:	C:\Users\PC\Documents\NetBeansProjects\Main System\dist\.
+Requires JDK:	No
+Requires 64-Bit: No
+Java min ver:	1.004.000
+Java max ver:	
+Substitute:	JAVA_HOME = 
+Substitute:	PATH = C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files\Eclipse Adoptium\jdk-21.0.4.7-hotspot\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Users\PC\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Eclipse Adoptium\jdk-21.0.4.7-hotspot\bin
+JRE paths:	;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files\Eclipse Adoptium\jdk-21.0.4.7-hotspot\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Users\PC\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Eclipse Adoptium\jdk-21.0.4.7-hotspot\bin
+Check launcher:	C:\Program Files\Common Files\Oracle\Java\javapath\bin\javaw.exe (not found)
+Check launcher:	C:\Program Files\Eclipse Adoptium\jdk-21.0.4.7-hotspot\bin\javaw.exe (OK)
+Version string: 1.021.000_004 / 64-Bit (OK)
+Launcher:	C:\Program Files\Eclipse Adoptium\jdk-21.0.4.7-hotspot\bin\javaw.exe
+Launcher args:	-jar "C:\Users\PC\Documents\NetBeansProjects\Main System\dist\Online Reservation Management.exe"
+Args length:	96/32768 chars
+Exit code:	0
